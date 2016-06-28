@@ -3,7 +3,6 @@ package com.lee.todoapp;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
         getSupportActionBar().setTitle("Daily Focus");
         setContentView(R.layout.activity_main);
         todoItems = new ArrayList<Todo>();
-        Todo newTodo = new Todo("123test");
+        Todo newTodo = new Todo("123test", false);
         todoItems.add(newTodo);
         todosAdapter = new TodosAdapter(this, todoItems);
         lvItems = (ListView) findViewById(R.id.lvItems);
@@ -40,8 +39,7 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         selectedTodo = todoItems.get(position);
-                        showEditDialog(position, todoItems.get(position).title.toString());
-
+                        showEditDialog(position, todoItems.get(position).title.toString(), selectedTodo.completed);
                     }
                 }
         );
@@ -59,9 +57,13 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
     }
 
     public void addTodo(View view) {
-        Log.e("test", "test");
-        if(todoItems.size() < 3) {
-            Todo newTodo = new Todo(etEditText.getText().toString());
+        String text = etEditText.getText().toString();
+        if(text == null || text.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please describe your todo.",
+                    Toast.LENGTH_LONG).show();
+        }
+        else if(todoItems.size() < 3) {
+            Todo newTodo = new Todo(etEditText.getText().toString(), false);
             todosAdapter.add(newTodo);
             etEditText.setText("");
         }
@@ -71,20 +73,17 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
         }
     }
 
-    private void showEditDialog(int position, String text) {
+    private void showEditDialog(int position, String text, boolean completed) {
         FragmentManager fm = getSupportFragmentManager();
-        Log.e("text", text);
-        EditTodoDialogFragment editTodoDialogFragment = EditTodoDialogFragment.newInstance(position, text);
+        EditTodoDialogFragment editTodoDialogFragment = EditTodoDialogFragment.newInstance(position, text, completed);
         editTodoDialogFragment.show(fm, "fragment_edit_todo");
     }
 
-    public void onFinishEditDialog(String text) {
+    public void onFinishEditDialog(String text, boolean completed) {
 
-        Log.e("blah", selectedTodo.title);
         selectedTodo.title = text;
-//        todoItems.set(position, text);
+        selectedTodo.completed = completed;
         todosAdapter.notifyDataSetChanged();
-//        writeItems();
     }
 
 }

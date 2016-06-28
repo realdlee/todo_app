@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -28,20 +30,23 @@ import android.widget.TextView;
 public class EditTodoDialogFragment extends DialogFragment implements TextView.OnEditorActionListener {
 
     private EditText editText;
+    private Switch switch1;
     int position;
+    boolean completed;
 
     public interface EditTodoDialogListener {
-        void onFinishEditDialog(String inputText);
+        void onFinishEditDialog(String inputText, boolean completed);
     }
 
     public EditTodoDialogFragment() {
     }
 
-    public static EditTodoDialogFragment newInstance(int position, String title) {
+    public static EditTodoDialogFragment newInstance(int position, String title, boolean completed) {
         EditTodoDialogFragment frag = new EditTodoDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putInt("position", position);
+        args.putBoolean("completed", completed);
         frag.setArguments(args);
         return frag;
     }
@@ -58,17 +63,19 @@ public class EditTodoDialogFragment extends DialogFragment implements TextView.O
         super.onViewCreated(view, savedInstanceState);
 
         editText = (EditText) view.findViewById(R.id.textTitle);
+        switch1 = (Switch) view.findViewById(R.id.switch1);
+        completed = getArguments().getBoolean("completed");
+        switch1.setChecked(completed);
+        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                completed = isChecked;
+            }
+        });
 
         String title = getArguments().getString("title");
         position = getArguments().getInt("position");
-        Log.e("title", title);
         editText.setText(title);
         editText.setOnEditorActionListener(this);
-
-//        final CheckBox checkBox = (CheckBox) findViewById(R.id.checkbox_id);
-//        if (checkBox.isChecked()) {
-//            checkBox.setChecked(false);
-//        }
 
         editText.requestFocus();
         getDialog().getWindow().setSoftInputMode(
@@ -79,14 +86,11 @@ public class EditTodoDialogFragment extends DialogFragment implements TextView.O
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (EditorInfo.IME_ACTION_DONE == actionId) {
             EditTodoDialogListener listener = (EditTodoDialogListener) getActivity();
-
-//            Bundle myBundle = new Bundle();
-//            myBundle.putString("title", editText.getText().toString());
-//            myBundle.putInt("position", 1);
-            listener.onFinishEditDialog(editText.getText().toString());
+            listener.onFinishEditDialog(editText.getText().toString(), completed);
             dismiss();
             return true;
         }
         return false;
     }
+
 }

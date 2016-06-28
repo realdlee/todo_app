@@ -1,6 +1,7 @@
 package com.lee.todoapp;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,11 @@ public class TodosAdapter extends ArrayAdapter<Todo> {
         TextView title = (TextView) convertView.findViewById(R.id.title);
 //        // Populate the data into the template view using the data object
         title.setText(todo.title);
+        if(todo.completed == true) {
+            title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+          title.setPaintFlags(title.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+        }
 
         // Return the completed view to render on screen
         return convertView;
