@@ -21,6 +21,9 @@ public class Todo extends Model {
     @Column(name = "Completed_At")
     public boolean completed_at;
 
+    @Column(name = "Priority")
+    public int priority;
+
 
     // Make sure to have a default constructor for every ActiveAndroid model
     public Todo(){
@@ -47,5 +50,4 @@ public class Todo extends Model {
                 .where("completed = 1")
                 .execute().size();
     }
-
 }

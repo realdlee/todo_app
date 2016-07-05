@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         selectedTodo = todoItems.get(position);
-                        showEditDialog(position, todoItems.get(position).title.toString(), selectedTodo.completed);
+                        showEditDialog(position, todoItems.get(position).title.toString(), selectedTodo.completed, selectedTodo.priority);
                     }
                 }
         );
@@ -82,18 +82,20 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
         }
     }
 
-    private void showEditDialog(int position, String text, boolean completed) {
+    private void showEditDialog(int position, String text, boolean completed, int priority) {
         FragmentManager fm = getSupportFragmentManager();
-        EditTodoDialogFragment editTodoDialogFragment = EditTodoDialogFragment.newInstance(position, text, completed);
+        EditTodoDialogFragment editTodoDialogFragment = EditTodoDialogFragment.newInstance(position, text, completed, priority);
         editTodoDialogFragment.show(fm, "fragment_edit_todo");
     }
 
-    public void onFinishEditDialog(String text, boolean completed) {
+    public void onFinishEditDialog(String text, boolean completed, int priority) {
         selectedTodo.title = text;
         boolean old_completed = selectedTodo.completed;
         selectedTodo.completed = completed;
+        selectedTodo.priority = priority;
         selectedTodo.save();
         todosAdapter.notifyDataSetChanged();
+        
         if((old_completed != completed) && (completed)) {
             int remaining = Todo.remainingTodos();
             String message;

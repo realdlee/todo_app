@@ -17,6 +17,12 @@
         android:inputType="text"
         android:imeOptions="actionDone" />
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/prioritySpinner"
+        android:spinnerMode="dropdown" />
+
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
