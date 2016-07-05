@@ -6,6 +6,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
 import java.util.List;
+import java.util.Date;
 
 @Table(name = "Todos")
 public class Todo extends Model {
@@ -19,10 +20,13 @@ public class Todo extends Model {
     public boolean completed;
 
     @Column(name = "Completed_At")
-    public boolean completed_at;
+    public Date completed_at;
 
     @Column(name = "Priority")
     public int priority;
+
+    @Column(name = "Created_At")
+    public Date created_at;
 
 
     // Make sure to have a default constructor for every ActiveAndroid model

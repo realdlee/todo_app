@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements EditTodoDialogFragment.EditTodoDialogListener {
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
             Todo newTodo = new Todo();
             newTodo.title = etEditText.getText().toString();
             newTodo.completed = false;
+            newTodo.created_at = new Date();
 
             if(todoItems.size() > 0) {
                 newTodo.remoteId = todoItems.get(todoItems.size() - 1).getId();
@@ -95,8 +97,15 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
         selectedTodo.priority = priority;
         selectedTodo.save();
         todosAdapter.notifyDataSetChanged();
-        
+
+
+//        SimpleDateFormat simpleDate =  new SimpleDateFormat("mm:ss");
+//        String strDt = simpleDate.format(selectedTodo.created_at);
+//        Log.e("date", strDt);
+
         if((old_completed != completed) && (completed)) {
+            selectedTodo.completed_at = new Date();
+            selectedTodo.save();
             int remaining = Todo.remainingTodos();
             String message;
             if(remaining > 1) {
