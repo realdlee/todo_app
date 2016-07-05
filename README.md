@@ -15,7 +15,7 @@ Time spent: **4** hours spent in total
 - [x] Optional: Use can mark todos as completed
 - [x] Optional: Basic validations (up to 3 todos and no blank todos) with Toast messages
 - [x] Optional: Improve styling and UI/UX
-- [ ] Optional: Persist todo items in database
+- [x] Optional: Persist todo items in database (with ActiveAndroid)
 - [ ] Optional: User can select priority of each item and display priority
 
 ##Walkthrough of all user stories:

@@ -3,6 +3,7 @@ package com.lee.todoapp;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -25,8 +26,7 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
         getSupportActionBar().setTitle("Daily Focus");
         setContentView(R.layout.activity_main);
         todoItems = new ArrayList<Todo>();
-        Todo newTodo = new Todo("123test", false);
-        todoItems.add(newTodo);
+        todoItems = Todo.getAll();
         todosAdapter = new TodosAdapter(this, todoItems);
         lvItems = (ListView) findViewById(R.id.lvItems);
         lvItems.setAdapter(todosAdapter);
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Todo removeItem = todoItems.remove(position);
-
+                removeItem.delete();
                 todosAdapter.notifyDataSetChanged();
                 return true;
             }
@@ -63,7 +63,11 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
                     Toast.LENGTH_LONG).show();
         }
         else if(todoItems.size() < 3) {
-            Todo newTodo = new Todo(etEditText.getText().toString(), false);
+            Todo newTodo = new Todo();
+            newTodo.title = etEditText.getText().toString();
+            newTodo.completed = false;
+            newTodo.remoteId = todoItems.get(todoItems.size()-1).getId();
+            newTodo.save();
             todosAdapter.add(newTodo);
             etEditText.setText("");
         }
@@ -80,9 +84,9 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
     }
 
     public void onFinishEditDialog(String text, boolean completed) {
-
         selectedTodo.title = text;
         selectedTodo.completed = completed;
+        selectedTodo.save();
         todosAdapter.notifyDataSetChanged();
     }
 
