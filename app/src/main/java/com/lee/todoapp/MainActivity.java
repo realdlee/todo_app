@@ -3,7 +3,6 @@ package com.lee.todoapp;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -66,7 +65,13 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
             Todo newTodo = new Todo();
             newTodo.title = etEditText.getText().toString();
             newTodo.completed = false;
-            newTodo.remoteId = todoItems.get(todoItems.size()-1).getId();
+
+            if(todoItems.size() > 0) {
+                newTodo.remoteId = todoItems.get(todoItems.size() - 1).getId();
+            } else {
+                newTodo.remoteId = 0 ;
+            }
+
             newTodo.save();
             todosAdapter.add(newTodo);
             etEditText.setText("");
@@ -85,9 +90,26 @@ public class MainActivity extends AppCompatActivity implements EditTodoDialogFra
 
     public void onFinishEditDialog(String text, boolean completed) {
         selectedTodo.title = text;
+        boolean old_completed = selectedTodo.completed;
         selectedTodo.completed = completed;
         selectedTodo.save();
         todosAdapter.notifyDataSetChanged();
+        if((old_completed != completed) && (completed)) {
+            int remaining = Todo.remainingTodos();
+            String message;
+            if(remaining > 1) {
+                message = "Great job! You have " + String.valueOf(remaining) + " remaining todos.";
+            } else if (remaining > 0) {
+                message = "Great job! You have just one more todo to go!";
+            } else {
+                message = "Great job! You're all done!";
+            }
+
+            Toast.makeText(getApplicationContext(), message,
+                    Toast.LENGTH_LONG).show();
+
+        }
+
     }
 
 }

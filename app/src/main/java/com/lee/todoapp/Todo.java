@@ -18,6 +18,9 @@ public class Todo extends Model {
     @Column(name = "Completed")
     public boolean completed;
 
+    @Column(name = "Completed_At")
+    public boolean completed_at;
+
 
     // Make sure to have a default constructor for every ActiveAndroid model
     public Todo(){
@@ -36,6 +39,13 @@ public class Todo extends Model {
                 .from(Todo.class)
                 .orderBy("Title ASC")
                 .execute();
+    }
+
+    public static int remainingTodos() {
+        return new Select()
+                .from(Todo.class)
+                .where("completed = 1")
+                .execute().size();
     }
 
 }
