@@ -1,8 +1,8 @@
 # Pre-work - *ToDo Demo*
 
-This is an Android demo application for managing todo items.
+This is an Android demo application for managing todo items. It encourages users to only focus on 3 tasks (which is the maximum).
 
-Time spent: **4** hours spent in total
+Time spent: **6** hours spent in total
 
 ##Completed User stories:
 - [x] Required: User can add and remove todo items
@@ -16,7 +16,11 @@ Time spent: **4** hours spent in total
 - [x] Optional: Basic validations (up to 3 todos and no blank todos) with Toast messages
 - [x] Optional: Improve styling and UI/UX
 - [x] Optional: Persist todo items in database (with ActiveAndroid)
-- [ ] Optional: User can select priority of each item and display priority
+- [x] Optional: User can select priority of each item
+- [x] Give feedback and encouragement to User with Toast messages after completing item
+- [ ] Sort todos by priority, completed at time, and created at time
+- [ ] Add Splash screen and explanatory view
+- [ ] Display graph of historical todo completion
 
 ##Walkthrough of all user stories:
 
@@ -24,7 +28,7 @@ Time spent: **4** hours spent in total
 <img src='https://github.com/realdlee/ToDoApp/blob/master/android_todo.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 ###v2
-<img src='https://github.com/realdlee/todo_app/blob/master/todo_v2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/realdlee/todo_app/blob/master/todo_v2.1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
