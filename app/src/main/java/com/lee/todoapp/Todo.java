@@ -51,7 +51,7 @@ public class Todo extends Model {
     public static int remainingTodos() {
         return new Select()
                 .from(Todo.class)
-                .where("completed = 1")
+                .where("completed = 0")
                 .execute().size();
     }
 }
